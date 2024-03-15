@@ -1,0 +1,62 @@
+Name: cron
+Host: 0.0.0.0
+Port: 7002
+
+#监控
+Prometheus:
+  Host: 0.0.0.0
+  Port: 4005
+  Path: /metrics
+
+#链路追踪
+Telemetry:
+  Name: cron
+  Endpoint: http://jaeger:14268/api/traces
+  Sampler: 1.0
+  Batcher: jaeger
+
+# JWT 设置
+JwtConfig:
+  AccessExpire: 86400 # 过期时间
+
+# JWT RPC 服务
+JwtRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379 # Etcd 地址
+    Key: jwt.rpc # 服务对应 key，用于服务发现
+  Endpoints:
+    - 127.0.0.1:9002
+  NonBlock: true
+
+# User RPC 服务
+UserRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: user.rpc
+  Endpoints:
+    - 127.0.0.1:9001
+  NonBlock: true
+
+# Video RPC 服务
+VideoRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: video.rpc
+  Endpoints:
+    - 127.0.0.1:9092
+  NonBlock: true
+  
+# Redis 设置
+RedisConfig:
+  Host: 127.0.0.1
+  Port: 6379
+  Auth: false
+  Username:
+  Password:
+  MaxIdle: 20
+  Active: 20
+  IdleTimeout: 60
+

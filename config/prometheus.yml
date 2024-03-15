@@ -1,0 +1,59 @@
+global:
+  scrape_interval:
+  external_labels:
+    monitor: 'codelab-monitor'
+
+scrape_configs:
+  - job_name: 'prometheus'
+    scrape_interval: 5s  #global catch time
+    static_configs:
+      - targets: ['127.0.0.1:9090']
+
+
+  - job_name: 'http-app'
+    static_configs:
+      - targets: [ 'douyin:4000' ]
+        labels:
+          job: http-app
+          app: http-app
+          env: dev
+
+  - job_name: 'rpc-user'
+    static_configs:
+      - targets: [ 'douyin:4001' ]
+        labels:
+          job: rpc-user
+          app: rpc-user
+          env: dev
+
+  - job_name: 'rpc-video'
+    static_configs:
+      - targets: [ 'douyin:4002' ]
+        labels:
+          job: rpc-video
+          app: rpc-video
+          env: dev
+
+  - job_name: 'mq'
+    static_configs:
+      - targets: [ 'douyin:4004' ]
+        labels:
+          job: mq
+          app: mq
+          env: dev
+
+    - job_name: 'jwt-user'
+    static_configs:
+      - targets: [ 'douyin:4001' ]
+        labels:
+          job: jwt-user
+          app: jwt-user
+          env: dev
+
+  - job_name: 'cron'
+    static_configs:
+      - targets: [ 'douyin:4005' ]
+        labels:
+          job: cron
+          app: cron
+          env: dev
