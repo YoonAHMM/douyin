@@ -20,13 +20,6 @@ type Config struct {
 		VideoBucket     string
 		VideoPath       string
 	}
-	KafkaConfig struct {
-		Host         string
-		Topic        string
-		BatchTimeout int
-		BatchSize    int
-		BatchBytes   int64
-	}
 	FeedLimit int64
 }
 
