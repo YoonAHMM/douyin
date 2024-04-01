@@ -30,6 +30,6 @@ ENV TZ Asia/Shanghai
 
 WORKDIR /app
 COPY --from=builder /app/cron /app/cron
-
+COPY --from=builder /app/etc /app/etc
 
 CMD ["./cron", "-f", "etc/cron.yaml"]

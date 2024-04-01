@@ -26,6 +26,6 @@ ENV TZ Asia/Shanghai
 
 WORKDIR /app
 COPY --from=builder /app/jwt /app/jwt
-
+COPY --from=builder /app/etc /app/etc
 
 CMD ["./jwt", "-f", "etc/jwt.yaml"]

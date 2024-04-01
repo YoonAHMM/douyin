@@ -26,6 +26,6 @@ ENV TZ Asia/Shanghai
 
 WORKDIR /app
 COPY --from=builder /app/mq /app/mq
-
+COPY --from=builder /app/etc /app/etc
 
 CMD ["./mq", "-f", "etc/mq.yaml"]

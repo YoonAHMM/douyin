@@ -39,7 +39,7 @@ func (l *TranscodingLogic) TransCoding(userid string, msg []byte) error {
 	if err != nil {
 		return err
 	}
-	// 1. 从 Oss 下载待处理的视频文件
+	//从 Oss 下载待处理的视频文件
 	filePath, err := l.OssDownloadFile(msgInfo.OssObjectKey)
 	if err != nil {
 		return err
@@ -60,13 +60,13 @@ func (l *TranscodingLogic) TransCoding(userid string, msg []byte) error {
 		}
 	}
 
-	// 2. 调用 ffmpeg 视频转码与截取封面（请确保本地安装了 ffmpeg，并设置了环境变量）
+	// 调用 ffmpeg 视频转码与截取封面
 	cmd := exec.Command("ffmpeg", "-i", filePath, "-preset", "fast", outputPath)
 	cmd.Run()
 	cmd = exec.Command("ffmpeg", "-i", outputPath, "-ss", "00:00:00", "-frames:v", "1", coverPath)
 	cmd.Run()
 
-	// 3. 将转码后视频与封面上传至 OSS
+	//将转码后视频与封面上传至 OSS
 	outputVideo, err := os.Open(outputPath)
 	outputCover, err := os.Open(coverPath)
 	playUrl, err := l.OssUploadFile(outputVideo, l.svcCtx.Config.AliyunOss.VideoPath, fileName)
@@ -79,7 +79,7 @@ func (l *TranscodingLogic) TransCoding(userid string, msg []byte) error {
 		return err
 	}
 
-	// 4.将视频信息写入 db 和 cache
+	// 将视频信息写入 db 和 cache
 	sf, err := snowflake.New(l.svcCtx.Config.WorkerId)
 	videoId, err := sf.Generate()
 	if err != nil {
@@ -112,7 +112,7 @@ func (l *TranscodingLogic) TransCoding(userid string, msg []byte) error {
 		return err
 	}
 
-	// 5. 最后将原视频（本地与OSS）删除
+	// 最后将原视频（本地与OSS）删除
 	outputVideo.Close()
 	outputCover.Close()
 	err = os.Remove(outputPath)
